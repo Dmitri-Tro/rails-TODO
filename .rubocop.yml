@@ -1,72 +1,55 @@
-# .rubocop.yml
-plugins:
-  - rubocop-rails
-  - rubocop-rspec
+# .rubocop.yml - Rails API TODO Application
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
 
 AllCops:
-  NewCops: enable
   TargetRubyVersion: 3.4
+  NewCops: enable
   Exclude:
-    - 'db/**/*'
-    - 'config/**/*'
-    - 'script/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/**/*'
+    - 'config/routes.rb'
     - 'bin/**/*'
     - 'vendor/**/*'
     - 'node_modules/**/*'
     - 'tmp/**/*'
     - 'log/**/*'
     - 'storage/**/*'
+    - 'spec/rails_helper.rb'
+    - 'spec/spec_helper.rb'
 
+# Allow longer lines for API responses and test descriptions
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+
+# Allow longer methods for controller actions with multiple operations
+Metrics/MethodLength:
+  Max: 25
+  Exclude:
+    - 'spec/**/*'
+
+# Allow longer blocks in tests
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/routes.rb'
+
+# Allow larger ABC size for complex controller actions
+Metrics/AbcSize:
+  Max: 30
+  Exclude:
+    - 'spec/**/*'
+
+# Disable documentation requirement (API-only app)
 Style/Documentation:
   Enabled: false
 
-Style/StringLiterals:
-  EnforcedStyle: single_quotes
-
-Style/FrozenStringLiteralComment:
+# Allow Russian comments and strings
+Style/AsciiComments:
   Enabled: false
 
-Layout/LineLength:
-  Max: 120
-
-Metrics/MethodLength:
-  Max: 20
-
-Metrics/AbcSize:
-  Max: 30
-
-Metrics/ClassLength:
-  Max: 200
-
-Style/IfUnlessModifier:
-  Enabled: false
-
-Style/GuardClause:
-  Enabled: false
-
-# Rails специфичные правила
-Rails:
-  Enabled: true
-
-Rails/FilePath:
-  EnforcedStyle: arguments
-
-Rails/TimeZone:
-  EnforcedStyle: strict
-
-Rails/Date:
-  EnforcedStyle: strict
-
-# RSpec правила
-RSpec:
-  Enabled: true
-
-RSpec/ExampleLength:
-  Max: 20
-
-# Bundler правила
-Bundler:
-  Enabled: true
-
-Bundler/OrderedGems:
-  Enabled: true
+# Rails specific adjustments
+Rails/I18nLocaleTexts:
+  Enabled: false # We use Russian error messages directly
